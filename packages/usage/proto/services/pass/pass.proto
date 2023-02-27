@@ -1,0 +1,50 @@
+syntax = "proto3";
+package Pass;
+import "models.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message FindPassRequest {
+    oneof where {
+        string id = 0;
+    }
+}
+
+message FindPassResponse {
+    Pass item = 0;
+}
+
+message CreatePassRequest {
+    google.protobuf.Timestamp expiresAt = 0;
+    string userId = 1;
+}
+
+message CreatePassResponse {
+    Pass item = 0;
+}
+
+message UpdatePassRequest {
+    string id = 0;
+    optional google.protobuf.Timestamp expiresAt = 1;
+}
+
+message UpdatePassResponse {
+    Pass item = 0;
+}
+
+message DeletePassRequest {
+    oneof where {
+        string id = 0;
+    }
+}
+
+message DeletePassResponse {
+    Pass item = 0;
+}
+
+service Pass {
+    rpc Find(FindPassRequest) returns (FindPassResponse);
+    rpc Create(CreatePassRequest) returns (CreatePassResponse);
+    rpc Update(UpdatePassRequest) returns (UpdatePassResponse);
+    rpc Delete(DeletePassRequest) returns (DeletePassResponse);
+}

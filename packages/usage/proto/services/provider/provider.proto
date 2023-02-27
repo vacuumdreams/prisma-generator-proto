@@ -1,0 +1,48 @@
+syntax = "proto3";
+package Provider;
+import "models.proto";
+
+
+message FindProviderRequest {
+    oneof where {
+        string id = 0;
+    }
+}
+
+message FindProviderResponse {
+    Provider item = 0;
+}
+
+message CreateProviderRequest {
+    string name = 0;
+}
+
+message CreateProviderResponse {
+    Provider item = 0;
+}
+
+message UpdateProviderRequest {
+    string id = 0;
+    optional string name = 1;
+}
+
+message UpdateProviderResponse {
+    Provider item = 0;
+}
+
+message DeleteProviderRequest {
+    oneof where {
+        string id = 0;
+    }
+}
+
+message DeleteProviderResponse {
+    Provider item = 0;
+}
+
+service Provider {
+    rpc Find(FindProviderRequest) returns (FindProviderResponse);
+    rpc Create(CreateProviderRequest) returns (CreateProviderResponse);
+    rpc Update(UpdateProviderRequest) returns (UpdateProviderResponse);
+    rpc Delete(DeleteProviderRequest) returns (DeleteProviderResponse);
+}

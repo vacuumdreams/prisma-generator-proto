@@ -1,0 +1,113 @@
+syntax = "proto3";
+package models;
+import "google/protobuf/timestamp.proto";
+import "models.proto";
+
+
+enum Role {
+    USER = 0;
+    SYSTEM_ADMIN = 1;
+}
+
+message User { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    string email = 3;
+    string name = 4;
+    Role role = 5;
+    repeated Pass passes = 6;
+    repeated Order orders = 7;
+}
+
+message Search { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    string location = 3;
+    string destination = 4;
+}
+
+message Order { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    bool published = 3;
+    User user = 4;
+    string userId = 5;
+    Product product = 6;
+    string productId = 7;
+}
+
+message Provider { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    string name = 3;
+    repeated Transport transports = 4;
+    repeated Product products = 5;
+}
+
+message Pass { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    google.protobuf.Timestamp expiresAt = 3;
+    User user = 4;
+    string userId = 5;
+}
+
+message Product { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    string name = 3;
+    repeated TransportsOnProducts transports = 4;
+    Provider provider = 5;
+    string providerId = 6;
+    repeated Order orders = 7;
+}
+
+message Vehicle { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    string name = 3;
+    repeated Transport transports = 4;
+}
+
+message Station { 
+    string id = 0;
+    string name = 1;
+    string location = 2;
+    repeated TransportsOnStations transports = 3;
+}
+
+message Transport { 
+    string id = 0;
+    google.protobuf.Timestamp createdAt = 1;
+    google.protobuf.Timestamp updatedAt = 2;
+    string name = 3;
+    Vehicle vehicle = 4;
+    string vehicleId = 5;
+    Provider provider = 6;
+    string providerId = 7;
+    repeated TransportsOnProducts products = 8;
+    repeated TransportsOnStations stations = 9;
+}
+
+message TransportsOnStations { 
+    Transport transport = 0;
+    string transportId = 1;
+    Station station = 2;
+    string stationId = 3;
+    google.protobuf.Timestamp assignedAt = 4;
+}
+
+message TransportsOnProducts { 
+    Transport transport = 0;
+    string transportId = 1;
+    Product product = 2;
+    string productId = 3;
+    google.protobuf.Timestamp assignedAt = 4;
+}

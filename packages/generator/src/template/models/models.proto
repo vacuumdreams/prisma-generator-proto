@@ -1,0 +1,16 @@
+syntax = "proto3";
+package models;
+<% models.dependencies.forEach((d) => { %>import "<%= d %>";
+<% })%>
+<% enums.forEach((e) => { %>
+enum <%= e.name %> {<%
+ e.fields.forEach((f, i) => { %>
+    <%= f.name %> = <%= i + 1 %>;<% })%>
+}
+<% }) %><%
+models.messages.forEach(m => { %>
+message <%= m.name %> { <%
+ m.fields.forEach((f, i) => { %>
+    <%= [f.opt, f.rep, f.type, f.name].filter(f => !!f).join(' ') %> = <%= i + 1 %>;<% }) %>
+}
+<% }) %>

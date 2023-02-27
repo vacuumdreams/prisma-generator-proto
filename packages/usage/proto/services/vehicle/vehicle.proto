@@ -1,0 +1,48 @@
+syntax = "proto3";
+package Vehicle;
+import "models.proto";
+
+
+message FindVehicleRequest {
+    oneof where {
+        string id = 0;
+    }
+}
+
+message FindVehicleResponse {
+    Vehicle item = 0;
+}
+
+message CreateVehicleRequest {
+    string name = 0;
+}
+
+message CreateVehicleResponse {
+    Vehicle item = 0;
+}
+
+message UpdateVehicleRequest {
+    string id = 0;
+    optional string name = 1;
+}
+
+message UpdateVehicleResponse {
+    Vehicle item = 0;
+}
+
+message DeleteVehicleRequest {
+    oneof where {
+        string id = 0;
+    }
+}
+
+message DeleteVehicleResponse {
+    Vehicle item = 0;
+}
+
+service Vehicle {
+    rpc Find(FindVehicleRequest) returns (FindVehicleResponse);
+    rpc Create(CreateVehicleRequest) returns (CreateVehicleResponse);
+    rpc Update(UpdateVehicleRequest) returns (UpdateVehicleResponse);
+    rpc Delete(DeleteVehicleRequest) returns (DeleteVehicleResponse);
+}

@@ -1,0 +1,48 @@
+syntax = "proto3";
+package Profile;
+
+
+message FindProfileRequest {
+    oneof where {
+        sint64 id = 0;sint64 userId = 1;
+    }
+}
+
+message FindProfileResponse {
+    Profile item = 0;
+}
+
+message CreateProfileRequest {
+    optional sint64 id = 0;
+    string bio = 1;
+    sint64 userId = 2;
+}
+
+message CreateProfileResponse {
+    Profile item = 0;
+}
+
+message UpdateProfileRequest {
+    string bio = 0;
+}
+
+message UpdateProfileResponse {
+    Profile item = 0;
+}
+
+message DeleteProfileRequest {
+    oneof where {
+        sint64 id = 0;sint64 userId = 1;
+    }
+}
+
+message DeleteProfileResponse {
+    Profile item = 0;
+}
+
+service Profile {
+    rpc Find(FindProfileRequest) returns (FindProfileResponse);
+    rpc Create(CreateProfileRequest) returns (CreateProfileResponse);
+    rpc Update(UpdateProfileRequest) returns (UpdateProfileResponse);
+    rpc Delete(DeleteProfileRequest) returns (DeleteProfileResponse);
+}
