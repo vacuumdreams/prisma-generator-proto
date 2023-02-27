@@ -1,3 +1,4 @@
+import * as changeCase from 'change-case'
 import { DMMF } from '@prisma/generator-helper'
 
 import { getEnums, Enum } from './enums'
@@ -9,6 +10,7 @@ export type Definitions = {
   models: Models
   types: Models
   services: Service[]
+  changeCase: typeof changeCase
 }
 
 export const compileDefinitions = (datamodel: DMMF.Datamodel): Definitions => {
@@ -17,5 +19,6 @@ export const compileDefinitions = (datamodel: DMMF.Datamodel): Definitions => {
     types: getModels(datamodel.types),
     models: getModels(datamodel.models),
     services: getServices(datamodel.models),
+    changeCase,
   }
 }

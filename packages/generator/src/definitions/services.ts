@@ -25,7 +25,7 @@ export type Service = {
 
 const getFindRequest = (model: DMMF.Model): Message => {
   return compileMessageWithIdentifiableFields({
-    name: `Find${model.name}Request`,
+    name: `FindRequest`,
     model,
   })
 }
@@ -54,7 +54,7 @@ const getCreateRequest = (model: DMMF.Model): Message => {
     }
     return acc
   }, {
-    name: `Create${model.name}Request`,
+    name: `CreateRequest`,
     fields: [],
     dependencies: [],
   })
@@ -84,7 +84,7 @@ const getUpdateRequest = (model: DMMF.Model): Message => {
     }
     return acc
   }, {
-    name: `Update${model.name}Request`,
+    name: `UpdateRequest`,
     fields: [],
     dependencies: [],
   })
@@ -92,7 +92,7 @@ const getUpdateRequest = (model: DMMF.Model): Message => {
 
 const getDeleteRequest = (model: DMMF.Model): Message => {
   return compileMessageWithIdentifiableFields({
-    name: `Delete${model.name}Request`,
+    name: `DeleteRequest`,
     model,
   })
 }
@@ -119,49 +119,49 @@ const getRequest = (t: OperationType, model: DMMF.Model): Message => {
 
 const getFindResponse = (model: DMMF.Model): Message => {
   return {
-    name: `Find${model.name}Response`,
+    name: `FindResponse`,
     fields: [{
       name: 'item',
       type: model.name,
-      dependency: 'models.proto',
+      internal: true,
     }],
-    dependencies: ['models.proto'],
+    dependencies: [],
   }
 }
 
 const getCreateResponse = (model: DMMF.Model): Message => {
   return {
-    name: `Create${model.name}Response`,
+    name: `CreateResponse`,
     fields: [{
       name: 'item',
       type: model.name,
-      dependency: 'models.proto',
+      internal: true,
     }],
-    dependencies: ['models.proto'],
+    dependencies: [],
   }
 }
 
 const getUpdateResponse = (model: DMMF.Model): Message => {
   return {
-    name: `Update${model.name}Response`,
+    name: `UpdateResponse`,
     fields: [{
       name: 'item',
       type: model.name,
-      dependency: 'models.proto',
+      internal: true,
     }],
-    dependencies: ['models.proto'],
+    dependencies: [],
   }
 }
 
 const getDeleteResponse = (model: DMMF.Model): Message => {
   return {
-    name: `Delete${model.name}Response`,
+    name: `DeleteResponse`,
     fields: [{
       name: 'item',
       type: model.name,
-      dependency: 'models.proto',
+      internal: true,
     }],
-    dependencies: ['models.proto'],
+    dependencies: [],
   }
 }
 

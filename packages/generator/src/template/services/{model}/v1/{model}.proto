@@ -1,0 +1,18 @@
+syntax = "proto3";
+package services.<%= changeCase.snakeCase(service.name) %>.v1;
+<% service.dependencies.forEach((d) => { %>import "<%= d %>";
+<% })%>
+import "models/models.proto";
+<% service.operations.map(o => ([o.req, o.res])).flat().forEach(m => { %>
+message <%= m.name %> {<%
+ m.fields.forEach((f, i) => { %>
+    <% if (f.type !== 'oneof') { %><%= [f.opt, f.rep, f.internal ? `models.${f.type}` : f.type, changeCase.snakeCase(f.name)].filter(f => !!f).join(' ') %> = <%= i + 1 %>;<% } %><%
+    if (f.type === 'oneof') { %><%= [f.opt, f.type, f.name].filter(f => !!f).join(' ') %> {
+        <% f.children.forEach((c, i) => { %><%= [c.opt, c.rep, c.internal ? `models.${c.type}` : c.type,, changeCase.snakeCase(c.name)].filter(f => !!f).join(' ') %> = <%= i + 1 %>;<% }) %>
+    }<% } %><% }) %>
+}
+<% }) %>
+service <%= service.name %>Service {<%
+ service.operations.forEach(o => { %>
+    rpc <%= o.name %>(<%= o.req.name%>) returns (<%= o.res.name %>);<% }) %>
+}

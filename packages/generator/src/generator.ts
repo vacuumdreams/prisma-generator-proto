@@ -2,6 +2,7 @@ import { generatorHandler, GeneratorOptions, DMMF } from '@prisma/generator-help
 import { logger } from '@prisma/sdk'
 import fs from 'fs'
 import path from 'path'
+import { spawnSync } from 'child_process'
 import { template } from 'underscore'
 
 import { paramCase } from 'change-case'
@@ -14,7 +15,7 @@ const { version } = require('../package.json')
 
 generatorHandler({
   onManifest() {
-    logger.info(`${GENERATOR_NAME}:Registered`)
+    logger.info(`${GENERATOR_NAME}: ✔ Registered`)
     return {
       version,
       defaultOutput: '../protos',
@@ -22,7 +23,9 @@ generatorHandler({
     }
   },
   onGenerate: async (options: GeneratorOptions) => {
-    const outputRoot = options.generator.output?.value ?? '../protos'
+    const outputDir = options.generator.output?.value ?? '../protos'
+    const outputRoot = path.join(options.schemaPath, outputDir)
+    const hasCustomTemplate = !!options.generator.config.templatePath
     const tplRoot = options.generator.config.templatePath || path.join(__dirname, 'template')
 
     const templateFiles = collectTemplates(tplRoot)
@@ -30,7 +33,7 @@ generatorHandler({
 
     await Promise.all(templateFiles.map(p => {
       const tplContent = fs.readFileSync(p, { encoding: 'utf-8' })
-      const outputPath = path.join(outputRoot, p.replace(tplRoot, ''))
+      const outputPath = path.join(outputDir, p.replace(tplRoot, ''))
 
       if (outputPath.includes('{model}')) {
         definitions.models.messages.forEach(m => {
@@ -48,5 +51,23 @@ generatorHandler({
       const content = template(tplContent)(definitions)
       return writeFileSafely(outputPath, content)
     }))
+
+    logger.info(`${GENERATOR_NAME}: ✔ Generation complete`)
+
+    if (!hasCustomTemplate) {
+      try {
+        spawnSync('buf', ['lint', outputRoot])
+        logger.info(`${GENERATOR_NAME}: ✔ Lint complete`)
+      } catch (err) {
+        logger.error(`${GENERATOR_NAME}: Error linting generated protos`, err)
+      }
+
+      try {
+        spawnSync('buf', ['format', outputRoot, '-w'])
+        logger.info(`${GENERATOR_NAME}: ✔ Format complete`)
+      } catch (err) {
+        logger.error(`${GENERATOR_NAME}: Error formatting generated protos: `, err)
+      }
+    }
   },
 })

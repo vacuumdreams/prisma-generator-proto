@@ -6,6 +6,7 @@ export type SoloField = {
   opt?: undefined | 'optional'
   rep?: undefined | 'repeated'
   dependency?: string
+  internal?: boolean
 }
 
 export type Field = SoloField | {
@@ -80,7 +81,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
         name: field.name,
         type: field.type,
         rep: field.isList ? 'repeated' : undefined,
-        dependency: 'models.proto',
+        internal: true
       }
     }
   }

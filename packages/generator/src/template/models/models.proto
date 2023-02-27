@@ -1,16 +1,23 @@
 syntax = "proto3";
 package models;
-<% models.dependencies.forEach((d) => { %>import "<%= d %>";
+<% types.dependencies.concat(models.dependencies).reduce((acc, d) => { if (!acc.includes(d)) { acc.push(d) } return acc }, []).forEach((d) => { %>import "<%= d %>";
 <% })%>
 <% enums.forEach((e) => { %>
-enum <%= e.name %> {<%
+enum <%= e.name %> {
+    <%= `${e.name.toUpperCase()}_UNSPECIFIED` %> = 0;<%
  e.fields.forEach((f, i) => { %>
-    <%= f.name %> = <%= i + 1 %>;<% })%>
+    <%= `${e.name.toUpperCase()}_${f.name.toUpperCase()}` %> = <%= i + 1 %>;<% })%>
+}
+<% }) %><%
+types.messages.forEach(m => { %>
+message <%= m.name %> { <%
+ m.fields.forEach((f, i) => { %>
+    <%= [f.opt, f.rep, f.type, changeCase.snakeCase(f.name)].filter(f => !!f).join(' ') %> = <%= i + 1 %>;<% }) %>
 }
 <% }) %><%
 models.messages.forEach(m => { %>
 message <%= m.name %> { <%
  m.fields.forEach((f, i) => { %>
-    <%= [f.opt, f.rep, f.type, f.name].filter(f => !!f).join(' ') %> = <%= i + 1 %>;<% }) %>
+    <%= [f.opt, f.rep, f.type, changeCase.snakeCase(f.name)].filter(f => !!f).join(' ') %> = <%= i + 1 %>;<% }) %>
 }
 <% }) %>

@@ -1,6 +1,6 @@
 generator custom_generator {
   provider = "npx prisma-generator-proto"
-  output   = "../types"
+  output   = "../protos"
 }
 
 datasource db {
@@ -9,26 +9,23 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt @default(now())
+  profile    Profile?
 }
 
-enum NotificationType {
-  newPosts
-  newComments
-  newFollowers
-  reply
-  heartOnPost
-  heartOnComment
-  heartOnReply
+// @op: Find
+model Profile {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int     @unique
+  confirmed Boolean @default(false)
 }
 
-enum Language {
-  Typescript
-  Javascript
-  Rust
-  Go
-  Python
-  Cpp
+enum Role {
+  ADMIN
+  USER
 }
