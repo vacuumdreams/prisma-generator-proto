@@ -1,11 +1,22 @@
 import { DMMF } from '@prisma/generator-helper'
 
 import { Message } from './models'
-import { getProtoFieldDef } from './fields'
-import { compileMessageWithIdentifiableFields } from '../utils/message'
+import { getProtoFieldDef, Field } from './fields'
+import {
+  compileMessageWithIdentifiableFields,
+  hasId,
+  isFilterable,
+  isSortable,
+  hasRelations,
+  getCursor,
+  getInclude,
+  getOrderBy,
+  getWhere,
+} from '../utils/message'
 
 enum OperationType {
   FIND = 'Find',
+  FIND_MANY = 'FindMany',
   CREATE = 'Create',
   UPDATE = 'Update',
   DELETE = 'Delete',
@@ -21,6 +32,7 @@ export type Service = {
   name: string
   operations: Operation[]
   dependencies: string[]
+  messages: Message[]
 }
 
 const getFindRequest = (model: DMMF.Model): Message => {
@@ -28,6 +40,57 @@ const getFindRequest = (model: DMMF.Model): Message => {
     name: `FindRequest`,
     model,
   })
+}
+
+const getFindManyRequest = (model: DMMF.Model): Message => {
+  const fields: Field[] = [
+    {
+      name: 'size',
+      type: 'int32',
+    }, {
+      name: 'skip',
+      type: 'int32',
+      opt: 'optional',
+    }
+  ]
+
+  if (hasId(model)) {
+    fields.push({
+      name: 'cursor',
+      type: 'CursorInput',
+      opt: 'optional',
+    })
+  }
+
+  if (isFilterable(model)) {
+    fields.push({
+      name: 'where',
+      type: 'WhereInput',
+      opt: 'optional',
+    })
+  }
+
+  if (isSortable(model)) {
+    fields.push({
+      name: 'orderBy',
+      type: 'OrderByInput',
+      opt: 'optional',
+    })
+  }
+
+  if (hasRelations(model)) {
+    fields.push({
+      name: 'include',
+      type: 'IncludeInput',
+      opt: 'optional',
+    })
+  }
+
+  return {
+    name: 'FindManyRequest',
+    fields,
+    dependencies: [],
+  }
 }
 
 const isCreatable = (f: DMMF.Field): boolean => {
@@ -102,6 +165,9 @@ const getRequest = (t: OperationType, model: DMMF.Model): Message => {
     case OperationType.FIND: {
       return getFindRequest(model)
     }
+    case OperationType.FIND_MANY: {
+      return getFindManyRequest(model)
+    }
     case OperationType.CREATE: {
       return getCreateRequest(model)
     }
@@ -121,9 +187,28 @@ const getFindResponse = (model: DMMF.Model): Message => {
   return {
     name: `FindResponse`,
     fields: [{
-      name: 'item',
+      name: 'result',
       type: model.name,
       internal: true,
+    }],
+    dependencies: [],
+  }
+}
+
+const getFindManyResponse = (model: DMMF.Model): Message => {
+  return {
+    name: `FindManyResponse`,
+    fields: [{
+      name: 'result',
+      type: model.name,
+      internal: true,
+      rep: 'repeated',
+    }, {
+      name: 'size',
+      type: 'int32',
+    }, {
+      name: 'cursor',
+      type: 'CursorInput',
     }],
     dependencies: [],
   }
@@ -133,7 +218,7 @@ const getCreateResponse = (model: DMMF.Model): Message => {
   return {
     name: `CreateResponse`,
     fields: [{
-      name: 'item',
+      name: 'result',
       type: model.name,
       internal: true,
     }],
@@ -145,7 +230,7 @@ const getUpdateResponse = (model: DMMF.Model): Message => {
   return {
     name: `UpdateResponse`,
     fields: [{
-      name: 'item',
+      name: 'result',
       type: model.name,
       internal: true,
     }],
@@ -157,7 +242,7 @@ const getDeleteResponse = (model: DMMF.Model): Message => {
   return {
     name: `DeleteResponse`,
     fields: [{
-      name: 'item',
+      name: 'result',
       type: model.name,
       internal: true,
     }],
@@ -169,6 +254,9 @@ const getResponse = (t: OperationType, model: DMMF.Model): Message => {
   switch (t) {
     case OperationType.FIND: {
       return getFindResponse(model)
+    }
+    case OperationType.FIND_MANY: {
+      return getFindManyResponse(model)
     }
     case OperationType.CREATE: {
       return getCreateResponse(model)
@@ -193,15 +281,41 @@ const getOperations = (model: DMMF.Model): Operation[] => {
   })).filter(o => o.req.fields.length > 0 && o.res.fields.length > 0)
 }
 
+const getMessages = (model: DMMF.Model): Message[] => {
+  const messages = []
+
+  if (hasId(model)) {
+    messages.push(getCursor(model))
+  }
+
+  if (isFilterable(model)) {
+    messages.push(getWhere(model))
+  }
+
+  if (isSortable(model)) {
+    messages.push(getOrderBy(model))
+  }
+
+  if (hasRelations(model)) {
+    messages.push(getInclude(model))
+  }
+
+  return messages
+}
+
 export const getServices = (models: DMMF.Model[]): Service[] => {
   return models.reduce<Service[]>((acc, m) => {
+    const messages = getMessages(m)
     const operations = getOperations(m)
     const dependencies = operations.reduce<string[]>((acc, o) => {
-      o.res.dependencies.concat(o.req.dependencies).forEach(d => {
-        if (!acc.includes(d)) {
-          acc.push(d)
-        }
-      })
+      o.res.dependencies
+        .concat(o.req.dependencies)
+        .concat(messages.map(m => m.dependencies).flat())
+        .forEach(d => {
+          if (!acc.includes(d)) {
+            acc.push(d)
+          }
+        })
       return acc
     }, [])
 
@@ -209,6 +323,7 @@ export const getServices = (models: DMMF.Model[]): Service[] => {
       name: m.name,
       operations,
       dependencies,
+      messages,
     })
     return acc
   }, [])

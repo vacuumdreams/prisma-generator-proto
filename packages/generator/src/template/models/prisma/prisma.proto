@@ -1,0 +1,9 @@
+syntax = "proto3";
+package models.prisma;
+
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+

@@ -8,3 +8,4 @@ lint:
   ignore_only:
     PACKAGE_VERSION_SUFFIX:
       - models/models.proto
+      - models/prisma/prisma.proto
