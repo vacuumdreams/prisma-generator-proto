@@ -1,5 +1,10 @@
 syntax = "proto3";
 package models;
+
+option go_package = "<%= root %>/models;models";
+option java_multiple_files = true;
+option java_package = "models";
+
 <% types.dependencies.concat(models.dependencies).reduce((acc, d) => { if (!acc.includes(d)) { acc.push(d) } return acc }, []).forEach((d) => { %>import "<%= d %>";
 <% })%>
 <% enums.forEach((e) => { %>

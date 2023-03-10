@@ -18,9 +18,10 @@ export type Field = SoloField | {
 
 export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
   switch(field.type) {
+    case 'Json':
     case 'String': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         rep: field.isList ? 'repeated' : undefined,
         type: 'string',
@@ -28,7 +29,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     case 'Boolean': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         rep: field.isList ? 'repeated' : undefined,
         type: 'bool',
@@ -36,7 +37,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     case 'Int': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         rep: field.isList ? 'repeated' : undefined,
         type: 'sint64',
@@ -44,7 +45,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     case 'Float': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         rep: field.isList ? 'repeated' : undefined,
         type: 'float',
@@ -52,7 +53,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     case 'Decimal': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         rep: field.isList ? 'repeated' : undefined,
         type: 'float',
@@ -60,7 +61,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     case 'Bytes': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         rep: field.isList ? 'repeated' : undefined,
         type: 'bytes',
@@ -68,7 +69,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     case 'DateTime': {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         type: 'google.protobuf.Timestamp',
         rep: field.isList ? 'repeated' : undefined,
@@ -77,7 +78,7 @@ export const getProtoFieldDef = (field: DMMF.Field): SoloField => {
     }
     default: {
       return {
-        opt: field.isRequired ? undefined : 'optional',
+        opt: (field.isRequired || field.isList) ? undefined : 'optional',
         name: field.name,
         type: field.type,
         rep: field.isList ? 'repeated' : undefined,

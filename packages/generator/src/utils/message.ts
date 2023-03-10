@@ -115,7 +115,7 @@ export const getWhere = (model: DMMF.Model): Message => {
 			const def = getProtoFieldDef(f)
 			acc.fields.push({
 				...def,
-				opt: 'optional',
+				opt: f.isList ? undefined : 'optional',
 			})
 			if (def.dependency && !acc.dependencies.includes(def.dependency)) {
 				acc.dependencies.push(def.dependency)

@@ -109,7 +109,7 @@ const getCreateRequest = (model: DMMF.Model): Message => {
       const def = getProtoFieldDef(f)
       acc.fields.push({
         ...def,
-        opt: !!f.default ? 'optional' : undefined,
+        opt: (!!f.default && !f.isList) ? 'optional' : undefined,
       })
       if (def.dependency && !acc.dependencies.includes(def.dependency)) {
         acc.dependencies.push(def.dependency)
@@ -139,7 +139,7 @@ const getUpdateRequest = (model: DMMF.Model): Message => {
       const def = getProtoFieldDef(f)
       acc.fields.push({
         ...def,
-        opt: f.isId ? undefined : 'optional',
+        opt: (f.isId || f.isList) ? undefined : 'optional',
       })
       if (def.dependency && !acc.dependencies.includes(def.dependency)) {
         acc.dependencies.push(def.dependency)

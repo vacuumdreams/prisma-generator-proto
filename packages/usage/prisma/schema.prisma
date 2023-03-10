@@ -1,11 +1,11 @@
-generator custom_generator {
-  provider = "npx prisma-generator-proto"
-  output   = "../protos"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator proto {
+  provider = "npx prisma-generator-proto"
+  output   = "../protos"
 }
 
 model User {

@@ -5,4 +5,4 @@ build
 pnpm-debug.log
 .env*
 
-packages/usage/protos
+./packages/usage/protos

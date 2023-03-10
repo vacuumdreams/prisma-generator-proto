@@ -1,6 +1,10 @@
 syntax = "proto3";
 package models.prisma;
 
+option go_package = "<%= root %>/models/prisma;prisma";
+option java_multiple_files = true;
+option java_package = "models.prisma";
+
 enum SortOrder {
   SORT_ORDER_UNSPECIFIED = 0;
   SORT_ORDER_ASC = 1;

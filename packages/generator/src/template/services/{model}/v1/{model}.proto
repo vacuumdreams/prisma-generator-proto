@@ -4,6 +4,11 @@ package services.<%= changeCase.snakeCase(service.name) %>.v1;
 <% })%>
 import "models/models.proto";
 import "models/prisma/prisma.proto";
+
+option go_package = "<%= root %>/services/<%= changeCase.snakeCase(service.name) %>;<%= changeCase.snakeCase(service.name) %>";
+option java_multiple_files = true;
+option java_package = "services.<%= changeCase.snakeCase(service.name) %>";
+
 <% service.messages.forEach(m => { %>
 message <%= m.name %> {<%
     m.fields.forEach((f, i) => { %>

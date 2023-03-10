@@ -1,11 +1,11 @@
-import { generatorHandler, GeneratorOptions, DMMF } from '@prisma/generator-helper'
+import { generatorHandler, GeneratorOptions } from '@prisma/generator-helper'
 import { logger } from '@prisma/sdk'
 import fs from 'fs'
 import path from 'path'
 import { spawnSync } from 'child_process'
 import { template } from 'underscore'
-
 import { paramCase } from 'change-case'
+
 import { GENERATOR_NAME } from './constants'
 import { writeFileSafely } from './utils/fs'
 import { collectTemplates } from './utils/template'
@@ -13,7 +13,13 @@ import { compileDefinitions } from './definitions'
 
 const { version } = require('../package.json')
 
-generatorHandler({
+type Handler = Parameters<typeof generatorHandler>[0]
+
+type Props = {
+  logger: typeof logger
+}
+
+export const createHandler = ({ logger }: Props): Handler => ({
   onManifest() {
     logger.info(`${GENERATOR_NAME}: ✔ Registered`)
     return {
@@ -29,7 +35,11 @@ generatorHandler({
     const tplRoot = options.generator.config.templatePath || path.join(__dirname, 'template')
 
     const templateFiles = collectTemplates(tplRoot)
-    const definitions = compileDefinitions(options.dmmf.datamodel)
+
+    const definitions = compileDefinitions({
+      root: outputRoot.split(path.sep).slice(-1)[0],
+      datamodel: options.dmmf.datamodel,
+    })
 
     await Promise.all(templateFiles.map(p => {
       const tplContent = fs.readFileSync(p, { encoding: 'utf-8' })
@@ -67,6 +77,15 @@ generatorHandler({
         logger.info(`${GENERATOR_NAME}: ✔ Format complete`)
       } catch (err) {
         logger.error(`${GENERATOR_NAME}: Error formatting generated protos: `, err)
+      }
+    }
+    
+    if (typeof options.generator.config.after === 'string') {
+      try {
+        spawnSync(options.generator.config.after)
+        logger.info(`${GENERATOR_NAME}: ✔ Post-generate tasks`)
+      } catch (err) {
+        logger.error(`${GENERATOR_NAME}: Error running post-generation command`, err)
       }
     }
   },
