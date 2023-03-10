@@ -26,6 +26,4 @@ The template and the after fields are optional.
 - `template`: lets you configure your own custom source for template files (mode about templates [here](./TEMPLATE.md))
 - `after`: any executable you'd like to run after the generation finishes - this might be useful if you're workflow requires generating further code using the proto files as sources (e.g. compiling proto clients, etc)
 
->-------------------------------------------------------------------------<
-
 > This generator was bootstraped using [create-prisma-generator](https://github.com/YassinEldeeb/create-prisma-generator)
