@@ -24,6 +24,7 @@ describe('Generate handler', () => {
     const exec = () => {
       const r = spawnSync('prisma', ['generate', '--schema=prisma/schema.prisma'], {
         cwd: TMP_OUTPUT_PATH,
+        shell: true,
       })
       if (r.error) {
         throw r.error
