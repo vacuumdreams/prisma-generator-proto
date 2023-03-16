@@ -32,6 +32,9 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
       - name: Install dependencies ⬇️
         run: pnpm i --frozen-lockfile
+      - name: Build generator 🏗️
+        working-directory: ./packages/generator
+        run: pnpm build
       - name: Link globals 🖇️
         working-directory: ./packages/generator
         run: pnpm link . --global
