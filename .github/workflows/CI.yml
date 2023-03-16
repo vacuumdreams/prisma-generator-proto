@@ -34,7 +34,7 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: Link globals 🖇️
         working-directory: ./packages/generator
-        run: pnpm link --global .
+        run: pnpm link . --global
       - name: Run Tests 🧪
         working-directory: ./packages/generator
         run: pnpm run test
