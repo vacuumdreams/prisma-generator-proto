@@ -31,9 +31,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
       - name: Install dependencies ⬇️
-        run: |
-          pnpm i --frozen-lockfile
-          pnpm i prisma --global
+        run: pnpm i --frozen-lockfile
       - name: Link globals 🖇️
         working-directory: ./packages/generator
         run: pnpm link --global .
