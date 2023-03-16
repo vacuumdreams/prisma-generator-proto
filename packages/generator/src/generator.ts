@@ -13,13 +13,11 @@ import { compileDefinitions } from './definitions'
 
 const { version } = require('../package.json')
 
-type Handler = Parameters<typeof generatorHandler>[0]
-
 type Props = {
   logger: typeof logger
 }
 
-export const createHandler = ({ logger }: Props): Handler => ({
+export const createHandler = ({ logger }: Props) => ({
   onManifest() {
     logger.info(`${GENERATOR_NAME}: ✔ Registered`)
     return {
