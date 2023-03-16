@@ -35,8 +35,8 @@ jobs:
       - name: Link globals
         working-directory: ./packages/generator
         run: |
-          npm link ./node_modules/prisma
-          npm link .
+          pnpm link --global ./node_modules/prisma
+          pnpm link --global .
       - name: Run Tests 🧪
         working-directory: ./packages/generator
         run: pnpm run test
