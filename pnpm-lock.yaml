@@ -16,26 +16,26 @@ importers:
     specifiers:
       '@prisma/client': 3.12.0
       '@prisma/generator-helper': 3.12.0
-      '@prisma/internals': ^4.10.1
+      '@prisma/internals': 4.10.1
       '@prisma/sdk': 3.12.0
-      '@semantic-release/changelog': ^6.0.1
-      '@semantic-release/git': ^10.0.1
-      '@types/change-case': ^2.3.1
+      '@semantic-release/changelog': 6.0.1
+      '@semantic-release/git': 10.0.1
+      '@types/change-case': 2.3.1
       '@types/jest': 27.0.3
       '@types/node': 17.0.21
       '@types/prettier': 2.4.2
-      '@types/underscore': ^1.11.4
-      change-case: ^4.1.2
+      '@types/underscore': 1.11.4
+      change-case: 4.1.2
       jest: 27.4.7
       prettier: 2.5.1
-      prisma: 3.12.0
-      semantic-release: ^18.0.1
+      prisma: 3.13.0
+      semantic-release: 18.0.1
       ts-jest: 27.1.4
       typescript: 4.6.2
-      underscore: ^1.13.6
-      zod: ^3.20.6
+      underscore: 1.13.6
+      zod: 3.20.6
     dependencies:
-      '@prisma/client': 3.12.0_prisma@3.12.0
+      '@prisma/client': 3.12.0_prisma@3.13.0
       '@prisma/generator-helper': 3.12.0
       '@prisma/internals': 4.10.1
       '@prisma/sdk': 3.12.0
@@ -44,7 +44,7 @@ importers:
       underscore: 1.13.6
       zod: 3.20.6
     devDependencies:
-      '@semantic-release/changelog': 6.0.2_semantic-release@18.0.1
+      '@semantic-release/changelog': 6.0.1_semantic-release@18.0.1
       '@semantic-release/git': 10.0.1_semantic-release@18.0.1
       '@types/change-case': 2.3.1
       '@types/jest': 27.0.3
@@ -52,7 +52,7 @@ importers:
       '@types/prettier': 2.4.2
       '@types/underscore': 1.11.4
       jest: 27.4.7
-      prisma: 3.12.0
+      prisma: 3.13.0
       semantic-release: 18.0.1
       ts-jest: 27.1.4_66ukeqj2p7gi7hpedmncq7753q
       typescript: 4.6.2
@@ -1004,7 +1004,7 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@prisma/client/3.12.0_prisma@3.12.0:
+  /@prisma/client/3.12.0_prisma@3.13.0:
     resolution: {integrity: sha512-4NEQjUcWja/NVBvfuDFscWSk1/rXg3+wj+TSkqXCb1tKlx/bsUE00rxsvOvGg7VZ6lw1JFpGkwjwmsOIc4zvQw==}
     engines: {node: '>=12.6'}
     requiresBuild: true
@@ -1015,7 +1015,7 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 3.12.0-37.22b822189f46ef0dc5c5b503368d1bee01213980
-      prisma: 3.12.0
+      prisma: 3.13.0
     dev: false
 
   /@prisma/client/3.7.0_prisma@3.7.0:
@@ -1108,6 +1108,11 @@ packages:
 
   /@prisma/engines/3.12.0-37.22b822189f46ef0dc5c5b503368d1bee01213980:
     resolution: {integrity: sha512-zULjkN8yhzS7B3yeEz4aIym4E2w1ChrV12i14pht3ePFufvsAvBSoZ+tuXMvfSoNTgBS5E4bolRzLbMmbwkkMQ==}
+    requiresBuild: true
+    dev: false
+
+  /@prisma/engines/3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b:
+    resolution: {integrity: sha512-Ip9CcCeUocH61eXu4BUGpvl5KleQyhcUVLpWCv+0ZmDv44bFaDpREqjGHHdRupvPN/ugB6gTlD9b9ewdj02yVA==}
     requiresBuild: true
 
   /@prisma/engines/3.7.0-31.8746e055198f517658c08a0c426c7eec87f5a85f:
@@ -1312,15 +1317,15 @@ packages:
       - supports-color
     dev: false
 
-  /@semantic-release/changelog/6.0.2_semantic-release@18.0.1:
-    resolution: {integrity: sha512-jHqfTkoPbDEOAgAP18mGP53IxeMwxTISN+GwTRy9uLu58UjARoZU8ScCgWGeO2WPkEsm57H8AkyY02W2ntIlIw==}
+  /@semantic-release/changelog/6.0.1_semantic-release@18.0.1:
+    resolution: {integrity: sha512-FT+tAGdWHr0RCM3EpWegWnvXJ05LQtBkQUaQRIExONoXjVjLuOILNm4DEKNaV+GAQyJjbLRVs57ti//GypH6PA==}
     engines: {node: '>=14.17'}
     peerDependencies:
       semantic-release: '>=18.0.0'
     dependencies:
       '@semantic-release/error': 3.0.0
       aggregate-error: 3.1.0
-      fs-extra: 11.1.0
+      fs-extra: 9.1.0
       lodash: 4.17.21
       semantic-release: 18.0.1
     dev: true
@@ -1813,6 +1818,11 @@ packages:
 
   /asynckit/0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: true
+
+  /at-least-node/1.0.0:
+    resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
+    engines: {node: '>= 4.0.0'}
     dev: true
 
   /babel-jest/27.5.1_@babel+core@7.21.0:
@@ -2766,6 +2776,16 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
+
+  /fs-extra/9.1.0:
+    resolution: {integrity: sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      at-least-node: 1.0.0
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: true
 
   /fs-jetpack/4.3.1:
     resolution: {integrity: sha512-dbeOK84F6BiQzk2yqqCVwCPWTxAvVGJ3fMQc6E2wuEohS28mR6yHngbrKuVCK1KHRx/ccByDylqu4H5PCP2urQ==}
@@ -4567,13 +4587,14 @@ packages:
     resolution: {integrity: sha512-VVtxR7sOh0VsG8o06Ttq5TrI1aiZKmC+ClSn4eBPaNf4SHr5lzbYW+kYGX3HocBL/MfpVrRfFZ9V3vCbLaiplg==}
     dev: false
 
-  /prisma/3.12.0:
-    resolution: {integrity: sha512-ltCMZAx1i0i9xuPM692Srj8McC665h6E5RqJom999sjtVSccHSD8Z+HSdBN2183h9PJKvC5dapkn78dd0NWMBg==}
+  /prisma/3.13.0:
+    resolution: {integrity: sha512-oO1auBnBtieGdiN+57IgsA9Vr7Sy4HkILi1KSaUG4mpKfEbnkTGnLOxAqjLed+K2nsG/GtE1tJBtB7JxN1a78Q==}
     engines: {node: '>=12.6'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 3.12.0-37.22b822189f46ef0dc5c5b503368d1bee01213980
+      '@prisma/engines': 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
+      ts-pattern: 4.2.1
 
   /prisma/3.7.0:
     resolution: {integrity: sha512-pzgc95msPLcCHqOli7Hnabu/GRfSGSUWl5s2P6N13T/rgMB+NNeKbxCmzQiZT2yLOeLEPivV6YrW1oeQIwJxcg==}
@@ -5334,7 +5355,6 @@ packages:
 
   /ts-pattern/4.2.1:
     resolution: {integrity: sha512-lXCmHZb01QOM9HdCLvisCGUH9ATdKPON9UaUvwe007gJAhuSBhRWIAIowys5QqNxEq6odWctfMIdI96vzjnOMQ==}
-    dev: false
 
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
