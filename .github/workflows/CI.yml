@@ -33,9 +33,10 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Link globals
+        working-directory: ./packages/generator
         run: |
-          npm link ./packages/generator/node_modules/prisma
-          npm link ./packages/generator
+          npm link ./node_modules/prisma
+          npm link .
       - name: Run Tests 🧪
         working-directory: ./packages/generator
         run: pnpm run test
