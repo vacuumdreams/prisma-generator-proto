@@ -4,7 +4,7 @@ datasource db {
 }
 
 generator proto {
-  provider = "npx prisma-generator-proto"
+  provider = "prisma-generator-proto"
   output   = "../protos"
 }
 
