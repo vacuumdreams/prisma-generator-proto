@@ -67,9 +67,9 @@ jobs:
       - name: Build generator 🏗️
         working-directory: ./packages/generator
         run: pnpm build
-      - name: Publish 🚀
+      - name: Publish 🗞️
         working-directory: ./packages/generator
-        run: npx semantic-release 🗞️
+        run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
