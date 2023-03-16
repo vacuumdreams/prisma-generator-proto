@@ -32,7 +32,6 @@ describe('Generate handler', () => {
       if (r.stderr.toString() !== '') {
         throw new Error(r.stderr.toString())
       }
-      console.log(r.stdout.toString())
     }
 
     expect(exec).not.toThrow()

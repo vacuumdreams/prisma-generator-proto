@@ -26,7 +26,8 @@ jobs:
         uses: pnpm/action-setup@v2.0.1
         with:
           version: 7.26.3
-      - uses: actions/cache@v2
+      - name: Setup cache 💾
+        uses: actions/cache@v2
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -53,7 +54,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org
-      - uses: actions/cache@v2
+      - name: Setup cache 💾
+        uses: actions/cache@v2
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
