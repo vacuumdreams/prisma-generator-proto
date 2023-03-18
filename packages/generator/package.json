@@ -1,7 +1,7 @@
 {
   "name": "prisma-generator-proto",
   "description": "Generate proto files from prisma schema",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/generator.js",
   "license": "MIT",
   "bin": {

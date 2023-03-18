@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/vacuumdreams/prisma-generator-proto/compare/v1.0.0...v1.0.1) (2023-03-18)
+
+
+### Bug Fixes
+
+* lockfile ([fb8e80a](https://github.com/vacuumdreams/prisma-generator-proto/commit/fb8e80ab946ee5638434f74a73f7f42bfaacd155))
+
 # 1.0.0 (2023-03-17)
 
 
